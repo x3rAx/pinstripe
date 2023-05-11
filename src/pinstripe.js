@@ -75,7 +75,7 @@ async function reloadTabIcons() {
             }
 
             for (let i = 0; i < ul.childNodes.length; i++) {
-                let tabId = parseInt(ul.childNodes[0].getAttribute('data-id'));
+                let tabId = parseInt(ul.childNodes[i].getAttribute('data-id'));
 
                 browser.tabs.move(tabId, {index: i})
             }
