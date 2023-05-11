@@ -58,7 +58,22 @@ async function reloadTabIcons() {
         });
 
         li.addEventListener('dragover', function(event) {
-            this.parentNode.insertBefore(dragElement, this);
+            if (this === dragElement) {
+                return;
+            } 
+
+            const thisIdx = [...ul.children].indexOf(this)
+            const dragElementIdx = [...ul.children].indexOf(dragElement)
+            
+            // If the hovered element is above the dragged element
+            if (thisIdx < dragElementIdx) {
+                // Place the dragged element before the hovered element
+                this.parentNode.insertBefore(dragElement, this)
+            } else {
+                // Place the dragged element after the hovered element
+                this.parentNode.insertBefore(dragElement, this.nextSibling)
+            }
+
             for (let i = 0; i < ul.childNodes.length; i++) {
                 let tabId = parseInt(ul.childNodes[0].getAttribute('data-id'));
 
