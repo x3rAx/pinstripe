@@ -119,7 +119,7 @@ async function start() {
     });
 
     document.getElementById('close').addEventListener('click', function() {
-        browser.tabs.update(tabAction);
+        browser.tabs.remove(tabAction);
         reloadTabIcons();
     });
 
