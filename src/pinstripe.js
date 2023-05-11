@@ -16,6 +16,7 @@ async function reloadTabIcons() {
 
         if (tabs[i].mutedInfo.muted) {
             li.classList.add('muted');
+            li.setAttribute('data-muted', true)
         }
 
         if (tabs[i].active) {
@@ -48,6 +49,9 @@ async function reloadTabIcons() {
         li.addEventListener('contextmenu', function(event) {
             event.preventDefault();
             tabAction = parseInt(this.getAttribute('data-id'));
+            let tabMuted = this.hasAttribute('data-muted')
+            document.getElementById('mute').style.display = tabMuted ? 'none' : 'block';
+            document.getElementById('unmute').style.display = tabMuted ? 'block' : 'none';
             contextMenu.style.left = '0.2em'
             contextMenu.style.top = event.clientY + 'px';
             contextMenu.classList.add('active');
@@ -120,7 +124,16 @@ async function start() {
     });
 
     document.getElementById('mute').addEventListener('click', function() {
-        browser.tabs.update(tabAction);
+        browser.tabs.update(tabAction, {
+            muted: true
+        });
+        reloadTabIcons();
+    });
+
+    document.getElementById('unmute').addEventListener('click', function() {
+        browser.tabs.update(tabAction, {
+            muted: false
+        });
         reloadTabIcons();
     });
 
