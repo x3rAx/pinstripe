@@ -99,13 +99,17 @@ async function start() {
 
 
     browser.tabs.onActivated.addListener(async function(info) {
-        let tab = await browser.tabs.get(info.tabId);
+        const tabId = info.tabId
+        let tab = await browser.tabs.get(info.tabId)
 
-        if (tab.pinned == false) {
-            let active = document.querySelector('li.active');
-            if (active) {
-                active.classList.remove('active');
-            }
+        let activeEl = document.querySelector('li.active')
+        if (activeEl) {
+            activeEl.classList.remove('active')
+        }
+
+        if (tab.pinned) {
+            const el = document.querySelector(`li[data-id="${tabId}"]`)
+            el.classList.add('active')
         }
     });
 
